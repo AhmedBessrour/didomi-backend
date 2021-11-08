@@ -2,17 +2,23 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EventController } from './event.controller';
 
 describe('EventController', () => {
-  let controller: EventController;
+  let eventController: EventController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [EventController],
     }).compile();
 
-    controller = module.get<EventController>(EventController);
+    eventController = module.get<EventController>(EventController);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(eventController).toBeDefined();
+  });
+
+  describe('Event related actions', () => {
+    it('should create/update user events', () => {
+      expect(eventController.addEvents()).toEqual('This action add events');
+    });
   });
 });
