@@ -26,7 +26,9 @@ describe('UserController', () => {
     });
 
     it('should add users"', () => {
-      expect(userController.deleteUser()).toBe('This action will delete a user');
+      expect(userController.deleteUser()).toBe(
+        'This action will delete a user',
+      );
     });
   });
 });
