@@ -3,3 +3,7 @@ export class CreateUserDto {
   email: string;
   consents: object[];
 }
+
+export class DeleteUserDto {
+  id: string;
+}

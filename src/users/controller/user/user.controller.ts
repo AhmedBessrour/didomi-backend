@@ -1,5 +1,5 @@
-import { Controller, Body, Get, Post, Delete } from '@nestjs/common';
-import { CreateUserDto } from 'src/users/dto/user.dto';
+import { Controller, Body, Get, Post, Delete, HttpCode } from '@nestjs/common';
+import { CreateUserDto, DeleteUserDto } from "src/users/dto/user.dto";
 import { UserService } from 'src/users/services/user.service';
 import { User } from 'src/users/models';
 
@@ -17,7 +17,7 @@ export class UserController {
   }
 
   @Delete()
-  deleteUser(): string {
-    return 'This action will delete a user';
+  deleteUser(@Body() deleteUserDto: DeleteUserDto): void {
+    return this.usersService.deleteUser(deleteUserDto);
   }
 }

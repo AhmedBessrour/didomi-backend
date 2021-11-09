@@ -1,9 +1,9 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, HttpStatus, HttpException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
 import { User } from 'src/users/models';
-import { CreateUserDto } from 'src/users/dto/user.dto';
+import { CreateUserDto, DeleteUserDto } from 'src/users/dto/user.dto';
 import { config } from 'src/constants';
 
 @Injectable()
@@ -20,5 +20,13 @@ export class UserService {
 
   getUsers(): Promise<User[]> {
     return this.userModel.find().exec();
+  }
+
+  deleteUser(deleteUserDto: DeleteUserDto): void {
+    this.userModel.findOneAndDelete(deleteUserDto, (err) => {
+      if (err) {
+        throw new HttpException('Delete User failed', HttpStatus.NO_CONTENT);
+      }
+    });
   }
 }
