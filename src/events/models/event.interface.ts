@@ -1,6 +1,7 @@
+import { Document } from 'mongoose';
 import { IConsent } from 'src/common/models';
 
-export interface Event {
+export interface Event extends Document {
   user: {
     id: string;
   };
