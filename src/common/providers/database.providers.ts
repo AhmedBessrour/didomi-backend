@@ -1,8 +1,10 @@
 import * as mongoose from 'mongoose';
 
+import { config } from 'src/constants';
+
 export const databaseProviders = [
   {
-    provide: 'DATABASE_CONNECTION',
-    useFactory: () => mongoose.connect('mongodb://localhost/didomi'),
+    provide: config.database.db_provider,
+    useFactory: () => mongoose.connect(config.database.url),
   },
 ];
