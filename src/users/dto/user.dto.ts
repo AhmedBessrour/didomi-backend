@@ -1,7 +1,7 @@
 export class CreateUserDto {
-  id: string;
+  id?: string;
   email: string;
-  consents: object[];
+  consents?: object[];
 }
 
 export class DeleteUserDto {
