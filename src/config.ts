@@ -1,4 +1,5 @@
-import { User } from 'src/users/models/user.model';
+import { User } from 'src/users/models';
+import { Event } from 'src/events/models';
 
 export const config = {
   port: 3000,
@@ -15,7 +16,7 @@ export const config = {
     username: 'root',
     password: 'abessrour',
     database: 'didomi',
-    models: [User],
+    models: [User, Event],
     define: {
       timestamps: false,
     },

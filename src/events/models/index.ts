@@ -1,1 +1,1 @@
-export { Event } from './event.interface';
+export { Event } from './event.model';
