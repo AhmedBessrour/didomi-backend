@@ -28,17 +28,17 @@ describe('EventController', () => {
       let event;
       beforeEach(() => {
         event = eventController.updateConsents({
-          email: eventStub().email,
+          user: { id: eventStub().user.id },
         });
       });
 
       it('should call eventService.updateConsents', () => {
         expect(eventService.insertOne).toHaveBeenCalledWith({
-          email: eventStub().email,
+          user: { id: eventStub().user.id },
         });
       });
 
-      it('should update consents', () => {
+      it('should return updated consents', () => {
         expect(event).toStrictEqual(eventStub());
       });
     });

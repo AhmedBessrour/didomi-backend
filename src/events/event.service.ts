@@ -4,9 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { Event } from 'src/events/models/event.model';
 import { UpdateConsentsDto } from 'src/events/dto/event.dto';
-import { ConsentType, IConsent } from '../common/models';
+import { ConsentType, IConsent } from 'src/common/models';
 
 import { UserService } from 'src/users/user.service';
+
+type Consents = Partial<Record<ConsentType, boolean>>;
 
 @Injectable()
 export class EventService {
@@ -56,10 +58,7 @@ export class EventService {
     }
   }
 
-  async updateOne(
-    userID: string,
-    query: Partial<Record<ConsentType, boolean>>,
-  ): Promise<Event> {
+  async updateOne(userID: string, query: Consents): Promise<Event> {
     try {
       const user = await this.findOne(userID);
       return await user.update(query, {
@@ -72,10 +71,8 @@ export class EventService {
     }
   }
 
-  private normalizeConsents(
-    consents: IConsent[],
-  ): Partial<Record<ConsentType, boolean>> {
-    const notificationsState: Partial<Record<ConsentType, boolean>> = {};
+  private normalizeConsents(consents: IConsent[]): Consents {
+    const notificationsState: Consents = {};
     consents.forEach((consent) => {
       notificationsState[consent.id] = consent.enabled;
     });

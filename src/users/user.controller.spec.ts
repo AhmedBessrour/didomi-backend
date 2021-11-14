@@ -31,6 +31,16 @@ describe('UserController', () => {
     });
   });
 
+  describe('getOneUser', () => {
+    describe('when getOneUser is called', () => {
+      it('should return one users', () => {
+        expect(userController.getOneUser({ id: 'id' })).toStrictEqual(
+          userStub(),
+        );
+      });
+    });
+  });
+
   describe('createUser', () => {
     describe('when createUser is called', () => {
       let user;
