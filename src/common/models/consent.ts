@@ -3,7 +3,4 @@ export interface IConsent {
   enabled: boolean;
 }
 
-export enum ConsentType {
-  email = 'email_notifications',
-  sms = 'sms_notifications',
-}
+export type ConsentType = 'email_notifications' | 'sms_notifications';

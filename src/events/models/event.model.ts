@@ -12,15 +12,22 @@ export class Event extends Model {
   @Column({
     type: DataType.CHAR(255),
   })
-  userID: string;
-
-  @Column({
-    type: DataType.ENUM('email_notifications', 'sms_notifications'),
-  })
   id: string;
 
   @Column({
-    type: DataType.BOOLEAN,
+    type: DataType.CHAR(255),
   })
-  enabled?: boolean;
+  userID: string;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  email_notifications?: boolean;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  sms_notifications?: boolean;
 }

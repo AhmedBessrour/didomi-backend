@@ -4,5 +4,5 @@ export class UpdateConsentsDto {
   user: {
     id: string;
   };
-  consents?: IConsent;
+  consents?: IConsent[];
 }

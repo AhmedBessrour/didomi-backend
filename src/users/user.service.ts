@@ -47,16 +47,16 @@ export class UserService {
     }
   }
 
-  async updateOne(id: string, target: string): Promise<User> {
+  async updateOne(userID: string, eventID: string): Promise<User> {
     try {
-      const user = await this.findOne(id);
+      const user = await this.findOne(userID);
       return await user.update(
         {
-          consents: target,
+          consents: eventID,
         },
         {
           where: {
-            id,
+            id: userID,
           },
         },
       );
