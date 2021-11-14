@@ -41,7 +41,7 @@ describe('UserController', () => {
       });
 
       it('should call userService.createUser', () => {
-        expect(userService.createUser).toHaveBeenCalledWith({
+        expect(userService.insertOne).toHaveBeenCalledWith({
           email: userStub().email,
         });
       });
@@ -56,7 +56,7 @@ describe('UserController', () => {
     describe('when deleteUser is called', () => {
       it('should call deleteUser.createUser', () => {
         userController.deleteUser({ id: userStub().id });
-        expect(userService.deleteUser).toHaveBeenCalledWith({
+        expect(userService.remove).toHaveBeenCalledWith({
           id: userStub().id,
         });
       });
