@@ -21,20 +21,54 @@ export class EventService {
     consents,
   }: UpdateConsentsDto): Promise<Event> {
     try {
-      const eventID = uuidv4();
-      const createEventParams = {
-        id: eventID,
-        userID: id,
-        ...this.normalizeConsents(consents),
-      };
-      const event = await this.eventModel.create(createEventParams);
-      await this.userService.updateOne(id, eventID);
+      const eventID = uuidv4(),
+        createEventParams = {
+          id: eventID,
+          userID: id,
+          ...this.normalizeConsents(consents),
+        };
+
+      let event = await this.findOne(id);
+      if (!event) {
+        event = await this.eventModel.create(createEventParams);
+        await this.userService.updateOne(id, eventID);
+      } else {
+        return await this.updateOne(id, this.normalizeConsents(consents));
+      }
       return event;
     } catch (e) {
       throw new HttpException(
         'Existing or missing parameters',
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
+    }
+  }
+
+  async findOne(userID: string): Promise<Event> {
+    try {
+      return await this.eventModel.findOne({
+        where: {
+          userID,
+        },
+      });
+    } catch (e) {
+      throw new HttpException('Event Not Found', HttpStatus.NOT_FOUND);
+    }
+  }
+
+  async updateOne(
+    userID: string,
+    query: Partial<Record<ConsentType, boolean>>,
+  ): Promise<Event> {
+    try {
+      const user = await this.findOne(userID);
+      return await user.update(query, {
+        where: {
+          userID,
+        },
+      });
+    } catch (e) {
+      throw new HttpException('Event Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
