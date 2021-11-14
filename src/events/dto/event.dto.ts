@@ -1,5 +1,8 @@
+import { IConsent } from 'src/common/models';
+
 export class UpdateConsentsDto {
-  id?: string;
-  email: string;
-  consents?: object[];
+  user: {
+    id: string;
+  };
+  consents?: IConsent;
 }

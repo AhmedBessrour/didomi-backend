@@ -1,14 +1,26 @@
-import { Column, Model, Table, PrimaryKey } from 'sequelize-typescript';
+import {
+  Column,
+  Model,
+  Table,
+  PrimaryKey,
+  DataType,
+} from 'sequelize-typescript';
 
 @Table
 export class Event extends Model {
   @PrimaryKey
-  @Column
+  @Column({
+    type: DataType.CHAR(255),
+  })
   userID: string;
 
-  @Column
+  @Column({
+    type: DataType.ENUM('email_notifications', 'sms_notifications'),
+  })
   id: string;
 
-  @Column
+  @Column({
+    type: DataType.BOOLEAN,
+  })
   enabled?: boolean;
 }

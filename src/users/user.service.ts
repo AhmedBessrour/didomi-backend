@@ -47,6 +47,24 @@ export class UserService {
     }
   }
 
+  async updateOne(id: string, target: string): Promise<User> {
+    try {
+      const user = await this.findOne(id);
+      return await user.update(
+        {
+          consents: target,
+        },
+        {
+          where: {
+            id,
+          },
+        },
+      );
+    } catch (e) {
+      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
+    }
+  }
+
   async remove({ id }: DeleteUserDto): Promise<void> {
     try {
       const user = await this.findOne(id);

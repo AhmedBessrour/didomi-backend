@@ -1,6 +1,6 @@
 export interface IConsent {
   id: ConsentType;
-  consents: boolean;
+  enabled: boolean;
 }
 
 export enum ConsentType {

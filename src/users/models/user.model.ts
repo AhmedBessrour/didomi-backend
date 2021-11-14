@@ -1,14 +1,26 @@
-import { Column, Model, Table, PrimaryKey } from 'sequelize-typescript';
+import {
+  Column,
+  Model,
+  Table,
+  PrimaryKey,
+  DataType,
+} from 'sequelize-typescript';
 
 @Table
 export class User extends Model {
   @PrimaryKey
-  @Column
+  @Column({
+    type: DataType.CHAR(255),
+  })
   id: string;
 
-  @Column
+  @Column({
+    type: DataType.CHAR(50),
+  })
   email: string;
 
-  @Column
+  @Column({
+    type: DataType.CHAR(50),
+  })
   consents?: string;
 }
