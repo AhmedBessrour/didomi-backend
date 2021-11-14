@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-import { config } from 'src/constants';
+import { config } from 'src/config';
 
 export const databaseProviders = [
   {

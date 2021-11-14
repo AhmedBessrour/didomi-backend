@@ -1,7 +1,7 @@
 import { Connection } from 'mongoose';
 import { UserSchema } from '../schemas/user.schema';
 
-import { config } from 'src/constants';
+import { config } from 'src/config';
 
 export const usersProviders = [
   {

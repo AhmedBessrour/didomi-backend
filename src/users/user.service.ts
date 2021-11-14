@@ -1,32 +1,58 @@
-import { Injectable, Inject, HttpStatus, HttpException } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
+import { InjectModel } from '@nestjs/sequelize';
 
-import { User } from 'src/users/models';
+import { User } from 'src/common/models/user.model';
 import { CreateUserDto, DeleteUserDto } from 'src/users/dto/user.dto';
-import { config } from 'src/constants';
 
 @Injectable()
 export class UserService {
   constructor(
-    @Inject(config.database.user_provider)
-    private userModel: Model<User>,
+    @InjectModel(User)
+    private userModel: typeof User,
   ) {}
 
-  createUser(createUserDto: CreateUserDto): Promise<User> {
-    const createUser = new this.userModel({ id: uuidv4(), ...createUserDto });
-    return createUser.save();
+  async insertOne(createUserDto: CreateUserDto): Promise<User> {
+    try {
+      return await this.userModel.create({
+        id: uuidv4(),
+        email: createUserDto.email,
+        consents: '',
+      });
+    } catch (e) {
+      throw new HttpException(
+        'Existing or missing parameters',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
   }
 
-  getUsers(): Promise<User[]> {
-    return this.userModel.find().exec();
+  async findAll(): Promise<User[]> {
+    try {
+      return await this.userModel.findAll();
+    } catch (e) {
+      throw new HttpException('Cannot query users', HttpStatus.NOT_FOUND);
+    }
   }
 
-  deleteUser(deleteUserDto: DeleteUserDto): void {
-    this.userModel.findOneAndDelete(deleteUserDto, (err) => {
-      if (err) {
-        throw new HttpException('Delete User failed', HttpStatus.NO_CONTENT);
-      }
-    });
+  async findOne(id: string): Promise<User> {
+    try {
+      return await this.userModel.findOne({
+        where: {
+          id,
+        },
+      });
+    } catch (e) {
+      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
+    }
+  }
+
+  async remove({ id }: DeleteUserDto): Promise<void> {
+    try {
+      const user = await this.findOne(id);
+      await user.destroy();
+    } catch (e) {
+      throw new HttpException('Could not remove user', HttpStatus.NOT_FOUND);
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { Connection } from 'mongoose';
 import { EventSchema } from '../schemas/event.schema';
 
-import { config } from 'src/constants';
+import { config } from 'src/config';
 
 export const usersProviders = [
   {
