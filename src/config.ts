@@ -1,4 +1,4 @@
-import { User } from 'src/common/models/user.model';
+import { User } from 'src/users/models/user.model';
 
 export const config = {
   port: 3000,
