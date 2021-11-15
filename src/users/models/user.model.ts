@@ -23,6 +23,10 @@ export class User extends Model {
 
   @Column({
     type: DataType.CHAR(50),
+    unique: true,
+    validate: {
+      isEmail: true,
+    },
   })
   email: string;
 
