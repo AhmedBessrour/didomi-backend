@@ -27,7 +27,7 @@ export class Logger extends Model {
     type: DataType.ENUM,
     values: ['email_notifications', 'sms_notifications'],
   })
-  notificationType?: string;
+  notification?: string;
 
   @Column({
     type: DataType.BOOLEAN,

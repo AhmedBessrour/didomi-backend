@@ -39,6 +39,7 @@ export class EventService {
     id: string,
     { id: consentID, enabled }: IConsent,
   ) {
+    await this.loggerService.logAction(id, consentID, enabled);
     const eventID = uuidv4(),
       createEventParams = {
         eventID: eventID,
