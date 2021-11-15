@@ -3,11 +3,12 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
+import { UserService } from 'src/users/user.service';
+import { LoggerService } from 'src/common/services/logger/logger.service';
+
 import { Event } from 'src/events/models/event.model';
 import { UpdateConsentsDto } from 'src/events/dto/event.dto';
 import { ConsentType, IConsent } from 'src/common/models';
-
-import { UserService } from 'src/users/user.service';
 
 @Injectable()
 export class EventService {
@@ -15,6 +16,7 @@ export class EventService {
     @InjectModel(Event)
     private eventModel: typeof Event,
     private userService: UserService,
+    private loggerService: LoggerService,
   ) {}
 
   async insertOne({

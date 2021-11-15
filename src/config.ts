@@ -1,5 +1,6 @@
 import { User } from 'src/users/models';
 import { Event } from 'src/events/models';
+import { Logger } from 'src/common/services/logger/models/logger.model';
 
 export const config = {
   port: 3000,
@@ -16,7 +17,7 @@ export const config = {
     username: 'root',
     password: 'abessrour',
     database: 'didomi',
-    models: [User, Event],
+    models: [User, Event, Logger],
     autoLoadModels: true,
     synchronize: true,
     define: {
