@@ -1,6 +1,5 @@
 import { Controller, Body, Get, Post, Delete, Param } from '@nestjs/common';
 import {
-  ApiBearerAuth,
   ApiOperation,
   ApiResponse,
   ApiTags,

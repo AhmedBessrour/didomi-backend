@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LoggerService } from './logger.service';
-import { eventStub } from '../../../events/__mocks__/events.stub';
 
 describe('LoggerService', () => {
   let service: LoggerService;
