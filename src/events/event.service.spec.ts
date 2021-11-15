@@ -64,18 +64,20 @@ describe('EventService', () => {
     describe('when updateOne is called', () => {
       let event;
       beforeEach(() => {
-        event = service.updateOne('userID', { email_notifications: true });
+        event = service.updateOne('userID', 'email_notifications', false);
       });
 
       it('should call eventService.updateOne', () => {
-        expect(service.updateOne).toHaveBeenCalledWith('userID', {
-          email_notifications: true,
-        });
+        expect(service.updateOne).toHaveBeenCalledWith(
+          'userID',
+          'email_notifications',
+          false,
+        );
       });
 
       it('should update user consents', () => {
         expect(
-          service.updateOne('userID', { email_notifications: true }),
+          service.updateOne('userID', 'email_notifications', false),
         ).toEqual(event);
       });
     });
