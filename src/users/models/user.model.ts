@@ -4,7 +4,9 @@ import {
   Table,
   PrimaryKey,
   DataType,
+  HasMany,
 } from 'sequelize-typescript';
+import { Event } from 'src/events/models';
 
 @Table
 export class User extends Model {
@@ -15,12 +17,15 @@ export class User extends Model {
   id: string;
 
   @Column({
-    type: DataType.CHAR(50),
+    type: DataType.CHAR(255),
   })
-  email: string;
+  userID: string;
 
   @Column({
     type: DataType.CHAR(50),
   })
-  consents?: string;
+  email: string;
+
+  @HasMany(() => Event)
+  consents?: Event[];
 }

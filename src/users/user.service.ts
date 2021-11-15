@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/sequelize';
 
 import { User } from 'src/users/models/user.model';
 import { CreateUserDto, DeleteUserDto } from 'src/users/dto/user.dto';
+import { Event } from '../events/models';
 
 @Injectable()
 export class UserService {
@@ -14,10 +15,11 @@ export class UserService {
 
   async insertOne(createUserDto: CreateUserDto): Promise<User> {
     try {
+      const uID = uuidv4();
       return await this.userModel.create({
-        id: uuidv4(),
+        id: uID,
+        userID: uID,
         email: createUserDto.email,
-        consents: '',
       });
     } catch (e) {
       throw new HttpException(
@@ -41,6 +43,7 @@ export class UserService {
         where: {
           id,
         },
+        include: [Event],
       });
     } catch (e) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);

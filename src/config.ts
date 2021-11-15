@@ -17,6 +17,8 @@ export const config = {
     password: 'abessrour',
     database: 'didomi',
     models: [User, Event],
+    autoLoadModels: true,
+    synchronize: true,
     define: {
       timestamps: false,
     },

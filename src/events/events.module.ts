@@ -11,5 +11,6 @@ import { User } from 'src/users/models';
   imports: [SequelizeModule.forFeature([Event, User])],
   controllers: [EventController],
   providers: [EventService, UserService],
+  exports: [SequelizeModule],
 })
 export class EventsModule {}
