@@ -15,10 +15,8 @@ export class UserService {
 
   async insertOne(createUserDto: CreateUserDto): Promise<User> {
     try {
-      const uID = uuidv4();
       return await this.userModel.create({
-        id: uID,
-        userID: uID,
+        id: uuidv4(),
         email: createUserDto.email,
       });
     } catch (e) {

@@ -17,11 +17,6 @@ export class User extends Model {
   id: string;
 
   @Column({
-    type: DataType.CHAR(255),
-  })
-  userID: string;
-
-  @Column({
     type: DataType.CHAR(50),
     unique: true,
     validate: {

@@ -15,25 +15,26 @@ export class Event extends Model {
   @Column({
     type: DataType.CHAR(255),
   })
-  id: string;
+  eventID: number;
 
+  @Column({
+    type: DataType.ENUM,
+    values: ['email_notifications', 'sms_notifications'],
+  })
+  id?: string;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  enabled?: boolean;
+
+  @PrimaryKey
   @ForeignKey(() => User)
   @Column({
     type: DataType.CHAR(255),
   })
   userID: string;
-
-  @Column({
-    type: DataType.BOOLEAN,
-    defaultValue: false,
-  })
-  email_notifications?: boolean;
-
-  @Column({
-    type: DataType.BOOLEAN,
-    defaultValue: false,
-  })
-  sms_notifications?: boolean;
 
   @BelongsTo(() => User)
   user: User;

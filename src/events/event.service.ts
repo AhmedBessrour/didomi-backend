@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { Op } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Event } from 'src/events/models/event.model';
@@ -18,6 +19,8 @@ export class EventService {
     private userService: UserService,
   ) {}
 
+  private notificationId: ConsentType = 'email_notifications';
+
   async insertOne({
     user: { id },
     consents,
@@ -25,20 +28,22 @@ export class EventService {
     try {
       const eventID = uuidv4(),
         createEventParams = {
-          id: eventID,
+          eventID: eventID,
           userID: id,
-          ...this.normalizeConsents(consents),
+          id: this.notificationId,
+          enabled: false,
         };
 
-      let event = await this.findOne(id);
+      let event = await this.findOne(id, this.notificationId);
       if (!event) {
         event = await this.eventModel.create(createEventParams);
         await this.userService.updateOne(id, eventID);
       } else {
-        return await this.updateOne(id, this.normalizeConsents(consents));
+        return await this.updateOne(id, this.notificationId);
       }
       return event;
     } catch (e) {
+      console.log('e', e);
       throw new HttpException(
         'Existing or missing parameters',
         HttpStatus.UNPROCESSABLE_ENTITY,
@@ -46,11 +51,28 @@ export class EventService {
     }
   }
 
-  async findOne(userID: string): Promise<Event> {
+  async findOne(userID: string, notification_id?: ConsentType): Promise<Event> {
     try {
+      console.log('query', {
+        [Op.and]: [
+          {
+            userID,
+          },
+          {
+            id: notification_id,
+          },
+        ],
+      });
       return await this.eventModel.findOne({
         where: {
-          userID,
+          [Op.and]: [
+            {
+              userID,
+            },
+            {
+              id: notification_id,
+            },
+          ],
         },
       });
     } catch (e) {
@@ -58,14 +80,27 @@ export class EventService {
     }
   }
 
-  async updateOne(userID: string, query: Consents): Promise<Event> {
+  async updateOne(
+    userID: string,
+    notification_id: ConsentType,
+  ): Promise<Event> {
     try {
-      const user = await this.findOne(userID);
-      return await user.update(query, {
-        where: {
-          userID,
+      const user = await this.findOne(userID, this.notificationId);
+      return await user.update(
+        { enabled: true },
+        {
+          where: {
+            [Op.and]: [
+              {
+                userID,
+              },
+              {
+                id: notification_id,
+              },
+            ],
+          },
         },
-      });
+      );
     } catch (e) {
       throw new HttpException('Event Not Found', HttpStatus.NOT_FOUND);
     }
